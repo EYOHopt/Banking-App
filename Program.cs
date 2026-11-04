@@ -1,26 +1,30 @@
-﻿const decimal MinimumBalance = 1000.00m;
-
-string accountHolder = "Aisha Bello";
-string accountNumber = "0123456789";
-string accountType = "Savings";
+﻿string accountHolder = "Aisha Bello";
 decimal balance = 50000.00m;
-bool isActive = true;
-DateTime openedOn = new DateTime(2026,1,10);
 
 
 Console.WriteLine("================================");
-Console.WriteLine("   VOSA BANK - ACCOUNT SUMMARY   ");
+Console.WriteLine("         VOSA Bank");
 Console.WriteLine("================================");
-Console.WriteLine($"Account holder : {accountHolder}");
-Console.WriteLine($"Account Number : {accountNumber}");
-Console.WriteLine($"Account Type : {accountType}");
-Console.WriteLine($"Balance : {balance}");
-Console.WriteLine($"Active : {isActive}");
-Console.WriteLine($"Opened On : {openedOn:dd MMM yyyy}");
-Console.WriteLine($"Minimum Balance : {MinimumBalance:N2}");
+
+Console.Write("Enter your first name: ");
+string firstName = Console.ReadLine() ?? "";
+Console.WriteLine($"Welcome: {firstName}");
+Console.WriteLine($"Current Balance : {balance:N2}");
 Console.WriteLine();
 
-// Let's create a scenario where wh have to change the value of an existing variable
-balance = balance + 15000.00m;
-Console.WriteLine("Deposited NGN 15,000.00");
-Console.WriteLine($"New Balance : NGN {balance:N2}");
+Console.Write("How much do you want to deposit? ");
+string input = Console.ReadLine() ?? "";
+
+bool isValid = decimal.TryParse(input, out decimal depositAmount);
+
+bool isPositive = depositAmount > 0m;
+bool canDeposit = isValid && isPositive;
+
+Console.WriteLine($"is it a number?  {isValid}");
+Console.WriteLine($"Is it more than zero?   {isPositive}");
+Console.WriteLine($"Deposit Allowed?   {canDeposit}");
+Console.WriteLine();
+
+
+balance += depositAmount;
+Console.WriteLine ($"New balance: NGN {balance:N2}");

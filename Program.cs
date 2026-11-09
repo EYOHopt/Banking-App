@@ -1,30 +1,79 @@
-﻿string accountHolder = "Aisha Bello";
-decimal balance = 50000.00m;
+﻿using System.ComponentModel.Design;
 
+const decimal dailyLimit = 50000m;
+decimal balance = 50000.00m;
 
 Console.WriteLine("================================");
 Console.WriteLine("         VOSA Bank");
 Console.WriteLine("================================");
+Console.WriteLine("1. Check balance");
+Console.WriteLine("2. Deposit");
+Console.WriteLine("3. Withdraw");
+Console.WriteLine("4. Exit");
+Console.WriteLine();
+Console.Write("Choose an option");
 
-Console.Write("Enter your first name: ");
-string firstName = Console.ReadLine() ?? "";
-Console.WriteLine($"Welcome: {firstName}");
-Console.WriteLine($"Current Balance : {balance:N2}");
+string choice = (Console.ReadLine() ?? "").Trim();
 Console.WriteLine();
 
-Console.Write("How much do you want to deposit? ");
-string input = Console.ReadLine() ?? "";
+switch (choice)
+{
+    case "1" :
+    Console.WriteLine($"Your balance is NGN {balance:N2}");
+    break;
 
-bool isValid = decimal.TryParse(input, out decimal depositAmount);
+    case "2":
+    Console.WriteLine("Amount to deposit: ");
+    string depositInput = Console.ReadLine() ?? "";
 
-bool isPositive = depositAmount > 0m;
-bool canDeposit = isValid && isPositive;
+    if (!decimal.TryParse(depositInput, out decimal depositAmount))
+        {
+            Console.WriteLine("That is not a valid amount.");
+        }
+    else if (depositAmount <= 0m)
+        {
+            Console.WriteLine("The deposit must be more than zero");
+        }    
+    else
+        {
+            balance = balance + depositAmount;
+            Console.WriteLine($"Deposited NGN {depositAmount: N2}");
+            Console.WriteLine($"New balance: NGN {balance:N2}");
+        }    
+        break;
+        
+    case "3":
+    Console.Write("Amount to withdraw: ");
+    string withdrawInput = Console.ReadLine() ?? "";
 
-Console.WriteLine($"is it a number?  {isValid}");
-Console.WriteLine($"Is it more than zero?   {isPositive}");
-Console.WriteLine($"Deposit Allowed?   {canDeposit}");
-Console.WriteLine();
+    if (!decimal.TryParse(withdrawInput, out decimal withdrawAmount))
+        {
+            Console.WriteLine("That is not a valid amount. ");
+        }
+    else if (withdrawAmount <= 0m)
+        {
+            Console.WriteLine("The amount must be more thatn zero. ");
+        
+        }
+    else if (withdrawAmount > dailyLimit)
+        {
+            Console.WriteLine("Insuffficient funds.");
+        }            
+    else
+        {
+            balance -= withdrawAmount;
+            Console.WriteLine($"Please take your case: NGN {withdrawAmount:N2}");
+            Console.WriteLine($"New balance: NGN {balance:N2}");
+        }
+        break;
 
+    case "4" :
+    Console.WriteLine("Thank you for banking with VOSA bank. Goodbye!");
+    break;
 
-balance += depositAmount;
-Console.WriteLine ($"New balance: NGN {balance:N2}");
+    default: 
+    Console.WriteLine($"'{choice}'is not a valid option. please choose 1 to 4." );  
+    break; 
+    
+        
+}
